@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>net.deanishe.alfred.transmit-favourites</string>
+	<key>connections</key>
+	<dict>
+		<key>879CC717-ED43-4A57-AB37-8B8F1D370568</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>88A0D8C9-43DC-4C1B-B98D-D0361AE8A3E0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E85D1A45-9222-4592-AB3D-953367C6C585</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E85D1A45-9222-4592-AB3D-953367C6C585</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>69E594D1-8EFB-4E54-8835-9E3807821370</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Dean Jackson</string>
+	<key>description</key>
+	<string>Search Transmit Favourites</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Transmit Favourites</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>ftp</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Fetching favourites…</string>
+				<key>script</key>
+				<string>./transmit "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Filter and open Transmit favourites</string>
+				<key>title</key>
+				<string>Transmit Favourites</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>879CC717-ED43-4A57-AB37-8B8F1D370568</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>/usr/bin/osascript -l JavaScript ./OpenFavourite.js "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>88A0D8C9-43DC-4C1B-B98D-D0361AE8A3E0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./transmit --update</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>69E594D1-8EFB-4E54-8835-9E3807821370</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:check_update}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>1</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>E85D1A45-9222-4592-AB3D-953367C6C585</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Transmit Favourites
+===================
+
+Filter and open Transmit favourites.
+
+This workflow parses Transmit's Favorites.xml file. This may be in a different location on your machine if you're using Transmit from the Mac App Store (or you'd like to use the copy in your Dropbox).
+
+Change the FAVES_PATH variable to the right to change the file used.
+
+The path to Transmit's Dropbox favourites file is:
+
+~/Dropbox/Apps/Transmit/Favorites/Favorites.xml</string>
+	<key>uidata</key>
+	<dict>
+		<key>69E594D1-8EFB-4E54-8835-9E3807821370</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>3</integer>
+			<key>note</key>
+			<string>Check for new version of workflow</string>
+			<key>xpos</key>
+			<integer>420</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
+		<key>879CC717-ED43-4A57-AB37-8B8F1D370568</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>9</integer>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>88A0D8C9-43DC-4C1B-B98D-D0361AE8A3E0</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>9</integer>
+			<key>note</key>
+			<string>Open Favourite in Transmit</string>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>E85D1A45-9222-4592-AB3D-953367C6C585</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>3</integer>
+			<key>note</key>
+			<string>check_update == 1</string>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>250</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>FAVES_PATH</key>
+		<string>~/Library/Application Support/Transmit/Favorites/Favorites.xml</string>
+	</dict>
+	<key>version</key>
+	<string>0.1</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
