@@ -107,6 +107,7 @@ func run() {
 
 	// ----------------------------------------------------------------
 	// Updates
+	var noUID bool
 	if wf.UpdateCheckDue() {
 		wf.Var("check_update", "1")
 	}
@@ -117,6 +118,7 @@ func run() {
 			Valid(false).
 			Autocomplete("workflow:update").
 			Icon(iconUpdate)
+		noUID = true
 	}
 
 	// ----------------------------------------------------------------
@@ -136,12 +138,14 @@ func run() {
 	// ----------------------------------------------------------------
 	// Display results
 	for _, fav := range faves {
-		wf.NewItem(fav.Name).
+		it := wf.NewItem(fav.Name).
 			Subtitle(fav.Server).
 			Arg(fav.ID).
-			UID(fav.ID).
 			Valid(true).
 			SortKey(fmt.Sprintf("%s %s", fav.Name, fav.Server))
+		if !noUID {
+			it.UID(fav.ID)
+		}
 	}
 
 	if query != "" {
