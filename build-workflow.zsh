@@ -13,6 +13,44 @@ log() {
     echo "$@" > /dev/stderr
 }
 
+do_dist=0
+do_clean=0
+
+usage() {
+    cat <<EOS
+build-workflow.zsh [options]
+
+Usage:
+    build-workflow.zsh [-d] [-c]
+    build-workflow.zsh -h
+
+Options:
+    -d      Build .alfredworkflow file
+    -c      Remove build directory
+    -h      Show this help message and exit
+EOS
+}
+
+while getopts ":cdh" opt; do
+  case $opt in
+    c)
+      do_clean=1
+      ;;
+    d)
+      do_dist=1
+      ;;
+    h)
+      usage
+      exit 0
+      ;;
+    \?)
+      log "Invalid option: -$OPTARG"
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
 cleanup() {
     local p="${here}/build"
     log "Cleaning up ..."
@@ -50,40 +88,41 @@ done
 
 log
 
-# Get the dist filename from the executable
-zipfile="$(./transmit --distname 2> /dev/null)"
-if [ "$?" -ne 0 ]; then
-    log "Error getting distname from transmit."
-    cleanup
-    exit 1
-fi
+if [[ $do_dist -eq 1 ]]; then
+    # Get the dist filename from the executable
+    zipfile="$(./transmit --distname 2> /dev/null)"
+    if [ "$?" -ne 0 ]; then
+        log "Error getting distname from transmit."
+        cleanup
+        exit 1
+    fi
 
-log
-
-if test -e "$zipfile"; then
-    log "Removing existing .alfredworkflow file ..."
-    rm -rvf "$zipfile"
     log
+
+    if test -e "$zipfile"; then
+        log "Removing existing .alfredworkflow file ..."
+        rm -rvf "$zipfile"
+        log
+    fi
+
+    pushd ./build/ &> /dev/null
+
+    log "Building .alfredworkflow file ..."
+    zip -r8n .png "../${zipfile}" ./*
+    ST_ZIP=$?
+    if [ "$ST_ZIP" != 0 ]; then
+        log "Error creating .alfredworkflow file."
+        popd &> /dev/null
+        cleanup
+        popd &> /dev/null
+        exit $ST_ZIP
+    fi
+    popd &> /dev/null
+
+    log
+    log "Wrote '${zipfile}' in '$( pwd )'"
 fi
 
-pushd ./build/ &> /dev/null
-
-log "Building .alfredworkflow file ..."
-zip -r8n .png "../${zipfile}" ./*
-ST_ZIP=$?
-if [ "$ST_ZIP" != 0 ]; then
-    log "Error creating .alfredworkflow file."
-    popd &> /dev/null
-    cleanup
-    popd &> /dev/null
-    exit $ST_ZIP
-fi
-popd &> /dev/null
-
-log
-
-cleanup
-
-log "Wrote '${zipfile}' in '$( pwd )'"
+[[ $do_clean -eq 1 ]] && { cleanup }
 
 popd &> /dev/null

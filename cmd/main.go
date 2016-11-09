@@ -28,11 +28,11 @@ Search and open Transmit favourites.
 Usage:
     transmit [<query>]
     transmit -u
-	transmit --distname
+    transmit --distname
 
 Options:
     -u, --update    Check for workflow update.
-	--distname      Print name of workflow file (for building).
+    --distname      Print name of workflow file (for building).
     -h, --help      Show this help message.
     --version       Show version.
 `
